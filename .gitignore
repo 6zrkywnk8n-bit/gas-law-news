@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# dist/ は GitHub Pages が公開する中身なので、あえて追跡する
+# data/news.db も記事の履歴なので追跡する（ワークフローが書き戻す）

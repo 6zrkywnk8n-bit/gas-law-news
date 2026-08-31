@@ -1,0 +1,68 @@
+name: ニュース収集とページ公開
+
+on:
+  schedule:
+    # 毎朝 8:00（日本時間）。GitHub の時刻は UTC なので前日 23:00 を指定する
+    - cron: "0 23 * * *"
+  workflow_dispatch: # 「Run workflow」ボタンから手動でも実行できる
+  push:
+    branches: [main]
+    # 下の「蓄積データを保存」が押し戻すコミットで再実行が連鎖しないようにする。
+    # （GITHUB_TOKEN による push は本来ワークフローを起動しないが、念のため除外しておく）
+    paths-ignore: ["data/**"]
+
+permissions:
+  contents: write # 蓄積データ（data/news.db）を書き戻すため
+  pages: write
+  id-token: write
+
+# 実行がぶつからないようにする（手動実行と定時実行が重なった場合など）
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Tokyo # 日付の判定を日本時間に合わせる
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: ニュースを収集してページを生成
+        run: python main.py --no-open
+
+      - name: 蓄積データを保存
+        # 記事の履歴と「新着」の基準は data/news.db に入っている。
+        # ここで書き戻さないと毎回まっさらな状態から始まってしまう。
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/news.db
+          if git diff --staged --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "ニュース収集 $(date '+%Y-%m-%d %H:%M')"
+            # 定時実行では HEAD が切り離された状態になることがあるので行き先を明示する
+            git push origin HEAD:${{ github.event.repository.default_branch }}
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

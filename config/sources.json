@@ -1,0 +1,116 @@
+{
+  "_comment": "情報源の定義。enabled=false で一時停止。parser は rss / meti_press / fdma_press / khk_news / generic_list から選択。filter=true の場合、キーワードに当たらない記事は捨てる（省庁の全プレスなど広いソース向け）。",
+  "sources": [
+    {
+      "id": "meti_press",
+      "name": "経済産業省 ニュースリリース",
+      "category": "官公庁",
+      "parser": "meti_press",
+      "url": "https://www.meti.go.jp/press/index.html",
+      "filter": true,
+      "enabled": true
+    },
+    {
+      "id": "fdma_press",
+      "name": "総務省消防庁 報道発表等",
+      "category": "官公庁",
+      "parser": "fdma_press",
+      "url": "https://www.fdma.go.jp/pressrelease/",
+      "filter": true,
+      "enabled": true
+    },
+    {
+      "id": "khk_top",
+      "name": "高圧ガス保安協会 (KHK) 新着情報",
+      "category": "業界団体",
+      "parser": "khk_news",
+      "url": "https://www.khk.or.jp/",
+      "filter": false,
+      "enabled": true,
+      "default_laws": [
+        "高圧ガス保安法"
+      ]
+    },
+    {
+      "id": "khk_list",
+      "name": "高圧ガス保安協会 (KHK) お知らせ一覧",
+      "category": "業界団体",
+      "parser": "khk_news",
+      "url": "https://www.khk.or.jp/information_list/",
+      "filter": false,
+      "enabled": true,
+      "default_laws": [
+        "高圧ガス保安法"
+      ]
+    },
+    {
+      "id": "jlpgas",
+      "name": "日本LPガス協会 お知らせ",
+      "category": "業界団体",
+      "parser": "generic_list",
+      "url": "https://www.j-lpgas.gr.jp/",
+      "filter": true,
+      "enabled": true,
+      "default_laws": [
+        "液化石油ガス法"
+      ]
+    },
+    {
+      "id": "gn_kouatsu_hoanho",
+      "name": "ニュース検索: 高圧ガス保安法",
+      "category": "一般ニュース",
+      "parser": "rss",
+      "url": "https://news.google.com/rss/search?q=%22%E9%AB%98%E5%9C%A7%E3%82%AC%E3%82%B9%E4%BF%9D%E5%AE%89%E6%B3%95%22&hl=ja&gl=JP&ceid=JP:ja",
+      "filter": false,
+      "enabled": true,
+      "default_laws": [
+        "高圧ガス保安法"
+      ]
+    },
+    {
+      "id": "gn_kouatsu_jiko",
+      "name": "ニュース検索: 高圧ガス 事故・保安",
+      "category": "事故・災害",
+      "parser": "rss",
+      "url": "https://news.google.com/rss/search?q=%E9%AB%98%E5%9C%A7%E3%82%AC%E3%82%B9+(%E4%BA%8B%E6%95%85+OR+%E7%88%86%E7%99%BA+OR+%E6%BC%8F%E3%81%88%E3%81%84+OR+%E4%BF%9D%E5%AE%89)&hl=ja&gl=JP&ceid=JP:ja",
+      "filter": true,
+      "enabled": true
+    },
+    {
+      "id": "gn_ekiseki",
+      "name": "ニュース検索: 液化石油ガス法・LPガス保安",
+      "category": "一般ニュース",
+      "parser": "rss",
+      "url": "https://news.google.com/rss/search?q=(%22%E6%B6%B2%E5%8C%96%E7%9F%B3%E6%B2%B9%E3%82%AC%E3%82%B9%E6%B3%95%22+OR+(LP%E3%82%AC%E3%82%B9+(%E4%BF%9D%E5%AE%89+OR+%E6%B3%95%E6%94%B9%E6%AD%A3+OR+%E7%B5%8C%E7%94%A3%E7%9C%81+OR+%E4%BA%8B%E6%95%85)))&hl=ja&gl=JP&ceid=JP:ja",
+      "filter": true,
+      "enabled": true
+    },
+    {
+      "id": "gn_kayaku",
+      "name": "ニュース検索: 火薬類取締法・煙火保安",
+      "category": "一般ニュース",
+      "parser": "rss",
+      "url": "https://news.google.com/rss/search?q=%28%E7%81%AB%E8%96%AC%E9%A1%9E%E5%8F%96%E7%B7%A0%E6%B3%95%20OR%20%E7%81%AB%E8%96%AC%E5%BA%AB%20OR%20%E7%81%AB%E5%B7%A5%E5%93%81%20OR%20%28%28%E7%81%AB%E8%96%AC%E9%A1%9E%20OR%20%E7%85%99%E7%81%AB%20OR%20%E8%8A%B1%E7%81%AB%29%20AND%20%28%E4%BF%9D%E5%AE%89%20OR%20%E8%A8%B1%E5%8F%AF%20OR%20%E4%BA%8B%E6%95%85%20OR%20%E5%8F%96%E7%B7%A0%20OR%20%E8%B2%AF%E8%94%B5%20OR%20%E6%B6%88%E8%B2%BB%20OR%20%E6%91%98%E7%99%BA%29%29%29&hl=ja&gl=JP&ceid=JP:ja",
+      "filter": true,
+      "enabled": true
+    },
+    {
+      "id": "gn_sangyo_hoan",
+      "name": "ニュース検索: 産業保安・法令改正",
+      "category": "官公庁",
+      "parser": "rss",
+      "url": "https://news.google.com/rss/search?q=(%E7%94%A3%E6%A5%AD%E4%BF%9D%E5%AE%89+OR+%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E4%BF%9D%E5%AE%89+OR+%22%E4%BF%9D%E5%AE%89%E6%B3%95%22)+(%E7%B5%8C%E6%B8%88%E7%94%A3%E6%A5%AD%E7%9C%81+OR+%E6%94%B9%E6%AD%A3+OR+%E3%83%91%E3%83%96%E3%83%AA%E3%83%83%E3%82%AF%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88)&hl=ja&gl=JP&ceid=JP:ja",
+      "filter": true,
+      "enabled": true
+    },
+    {
+      "id": "gn_lpg_jiko",
+      "name": "ニュース検索: LPガス 事故・災害",
+      "category": "事故・災害",
+      "parser": "rss",
+      "url": "https://news.google.com/rss/search?q=(LP%E3%82%AC%E3%82%B9+OR+%E3%83%97%E3%83%AD%E3%83%91%E3%83%B3%E3%82%AC%E3%82%B9+OR+%E6%B6%B2%E5%8C%96%E7%9F%B3%E6%B2%B9%E3%82%AC%E3%82%B9)+(%E4%BA%8B%E6%95%85+OR+%E7%88%86%E7%99%BA+OR+%E6%BC%8F%E3%81%88%E3%81%84+OR+%E4%B8%AD%E6%AF%92)&hl=ja&gl=JP&ceid=JP:ja",
+      "filter": true,
+      "enabled": true
+    }
+  ]
+}
