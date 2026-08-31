@@ -1,0 +1,4 @@
+# Linux 上で動く GitHub Actions が CRLF で転ばないよう、改行コードを固定する
+* text=auto eol=lf
+*.bat text eol=crlf
+*.db binary
